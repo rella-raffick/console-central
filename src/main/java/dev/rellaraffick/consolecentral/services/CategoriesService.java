@@ -1,9 +1,15 @@
 package dev.rellaraffick.consolecentral.services;
 
 import dev.rellaraffick.consolecentral.records.ConsoleCentralCategories;
+import dev.rellaraffick.consolecentral.records.ConsoleCentralUser;
 import dev.rellaraffick.consolecentral.repositories.CategoriesRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class CategoriesService {
     private final CategoriesRepository categoriesRepository;
 
@@ -11,12 +17,12 @@ public class CategoriesService {
         this.categoriesRepository = categoriesRepository;
     }
 
-    public void getCategories() {
-        categoriesRepository.findAll();
+    public List<ConsoleCentralCategories> getAllCategories() {
+        return categoriesRepository.findAll();
     }
 
-    public void getCategoryById(Integer categoryId) {
-        categoriesRepository.findById(categoryId);
+    public Optional<ConsoleCentralCategories> getCategoryById(Integer categoryId) {
+        return categoriesRepository.findById(categoryId);
     }
 
     public void createCategory(ConsoleCentralCategories category) {

@@ -1,0 +1,17 @@
+### GET all categories
+GET http://localhost:8080/api/category/all
+
+### GET category by ID
+GET http://localhost:8080/api/category/1
+
+### Create new category
+POST http://localhost:8080/api/category/create
+Content-Type: application/json
+
+{
+  "categoryName": "Action games",
+  "categoryDescription": "Action games are games that emphasize physical challenges, including hand–eye coordination and reaction-time."
+}
+
+### Delete a category
+DELETE http://localhost:8080/api/category/delete/2

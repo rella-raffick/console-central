@@ -6,6 +6,7 @@ import dev.rellaraffick.consolecentral.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PutMapping("update/{id}")
-    ConsoleCentralUser updateUser(@PathVariable Integer id, @RequestBody ConsoleCentralUser user){
+    Optional<ConsoleCentralUser> updateUser(@PathVariable Integer id, @RequestBody ConsoleCentralUser user){
         return userService.updateUser(id, user);
     }
 

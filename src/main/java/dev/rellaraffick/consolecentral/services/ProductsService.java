@@ -33,6 +33,13 @@ public class ProductsService {
         productsRepository.save(existingProduct);
     }
 
+    public void updateStock(Integer id, Integer stock) {
+        ConsoleCentralProducts existingProduct = productsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        existingProduct.setProductStock(stock);
+        productsRepository.save(existingProduct);
+    }
+
     public void deleteProduct(Integer id) {
         productsRepository.deleteById(id);
     }

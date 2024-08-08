@@ -2,7 +2,13 @@ package dev.rellaraffick.consolecentral.services;
 
 import dev.rellaraffick.consolecentral.records.ConsoleCentralOrders;
 import dev.rellaraffick.consolecentral.repositories.OrdersRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class OrdersService {
     private final OrdersRepository orderRepository;
 
@@ -10,31 +16,42 @@ public class OrdersService {
         this.orderRepository = orderRepository;
     }
 
-    public void getOrders() {
-        orderRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<ConsoleCentralOrders> getAllOrders() {
+        return orderRepository.findAll();
     }
 
-    public void getOrderById(Integer orderId) {
-        orderRepository.findById(orderId);
+    @Transactional(readOnly = true)
+    public ConsoleCentralOrders getOrderById(Integer orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
     }
 
-    public void createOrder(ConsoleCentralOrders order) {
-        orderRepository.save(order);
+    @Transactional(readOnly = true)
+    public List<ConsoleCentralOrders> getAllOrdersByUserId(Integer userId) {
+       return orderRepository.findAllByUserUserId(userId);
     }
 
-    public void updateOrder(int id, ConsoleCentralOrders order) {
-        ConsoleCentralOrders existingOrder = orderRepository.findById(id).orElse(null);
-        if (existingOrder != null) {
-            existingOrder.setOrderDate(order.getOrderDate());
-            existingOrder.setOrderStatus(order.getOrderStatus());
-            existingOrder.setUser(order.getUser());
-            orderRepository.save(existingOrder);
+    @Transactional
+    public ConsoleCentralOrders createOrder(ConsoleCentralOrders order) {
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public ConsoleCentralOrders updateOrderStatus(Integer orderId, String status) {
+        ConsoleCentralOrders existingOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+        existingOrder.setOrderStatus(status);
+        return orderRepository.save(existingOrder);
+    }
+
+    @Transactional
+    public boolean deleteOrder(Integer orderId) {
+        try {
+            orderRepository.deleteById(orderId);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
-
-    public void deleteOrder(int id) {
-        orderRepository.deleteById(id);
-    }
-
-
 }

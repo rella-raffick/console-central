@@ -10,9 +10,11 @@ public class ReviewsService {
         this.reviewsRepository = reviewsRepository;
     }
 
-    public void getReviews() {
-        reviewsRepository.findAll();
-    }
+
+    //TODO: NEED CLARITY
+//    public void getAllReviewsByProduct(Integer productId) {
+//        reviewsRepository.findAllByProduct(productId);
+//    }
 
     public void getReview(Integer id) {
         reviewsRepository.findById(id).orElseThrow();

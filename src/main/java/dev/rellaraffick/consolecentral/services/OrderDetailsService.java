@@ -2,41 +2,33 @@ package dev.rellaraffick.consolecentral.services;
 
 import dev.rellaraffick.consolecentral.records.ConsoleCentralOrderDetails;
 import dev.rellaraffick.consolecentral.repositories.OrderDetailsRepository;
+import dev.rellaraffick.consolecentral.repositories.OrdersRepository;
 
 public class OrderDetailsService {
     private final OrderDetailsRepository orderDetailsRepository;
+    private final OrdersRepository ordersRepository;
 
-    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository) {
+    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, OrdersRepository ordersRepository) {
         this.orderDetailsRepository = orderDetailsRepository;
+        this.ordersRepository = ordersRepository;
     }
 
-    public void getOrderDetails() {
-        orderDetailsRepository.findAll();
+    //TODO: NEED MORE UNDERSTANDING
+    public void addProductToOrder(Integer orderId, ConsoleCentralOrderDetails orderDetails) {
+        orderDetails.setOrder(ordersRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId)));
+        orderDetailsRepository.save(orderDetails);
     }
 
-    public void getOrderDetailById(Integer orderDetailId) {
-        orderDetailsRepository.findById(orderDetailId);
+    public void updateQuantity(Integer orderDetailsId, Integer quantity) {
+        ConsoleCentralOrderDetails existingOrderDetails = orderDetailsRepository.findById(orderDetailsId)
+                .orElseThrow(() -> new RuntimeException("Order Details not found with id: " + orderDetailsId));
+        existingOrderDetails.setQuantity(quantity);
+        orderDetailsRepository.save(existingOrderDetails);
     }
 
-    public void createOrderDetail(ConsoleCentralOrderDetails orderDetail) {
-        orderDetailsRepository.save(orderDetail);
-    }
-
-    public void updateOrderDetail(int id, ConsoleCentralOrderDetails orderDetail) {
-        ConsoleCentralOrderDetails existingOrderDetail = orderDetailsRepository.findById(id).orElse(null);
-        if (existingOrderDetail != null) {
-            existingOrderDetail.setOrder(orderDetail.getOrder());
-            existingOrderDetail.setProduct(orderDetail.getProduct());
-            existingOrderDetail.setQuantity(orderDetail.getQuantity());
-            existingOrderDetail.setPrice(orderDetail.getPrice());
-            existingOrderDetail.setOrder(orderDetail.getOrder());
-            existingOrderDetail.setProduct(orderDetail.getProduct());
-            orderDetailsRepository.save(existingOrderDetail);
-        }
-    }
-
-    public void deleteOrderDetail(int id) {
-        orderDetailsRepository.deleteById(id);
+    public void removeProductFromOrder(Integer orderDetailsId) {
+        orderDetailsRepository.deleteById(orderDetailsId);
     }
 
 }
