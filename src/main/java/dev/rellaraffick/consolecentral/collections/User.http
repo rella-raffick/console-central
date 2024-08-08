@@ -1,0 +1,28 @@
+### Create new User
+POST http://localhost:8080/api/users/create
+Content-Type: application/json
+
+{
+  "userName": "Lionel Messi",
+  "email": "lm10@gmail.com",
+  "password": "123456"
+}
+
+### Update an existing User
+PUT http://localhost:8080/api/users/update/1
+Content-Type: application/json
+
+{
+  "userName": "Cristiano Ronaldo",
+  "email": "cr7@gmail.com",
+  "password": "123456"
+}
+
+### Delete a User
+DELETE http://localhost:8080/api/users/delete/1
+
+### GET all Users
+GET http://localhost:8080/api/users
+
+### GET User by ID
+GET http://localhost:8080/api/users/1
