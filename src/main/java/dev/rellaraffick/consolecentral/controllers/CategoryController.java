@@ -31,7 +31,7 @@ public class CategoryController {
         categoriesService.createCategory(category);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     ConsoleCentralCategories updateCategory(@PathVariable Integer id, @RequestBody ConsoleCentralCategories category){
         return categoriesService.updateCategory(id, category);
     }

@@ -1,0 +1,40 @@
+### GET all products
+GET http://localhost:8080/api/product/all
+
+### GET product by ID
+GET http://localhost:8080/api/product/5
+
+### Create new product
+POST http://localhost:8080/api/product/create/7
+Content-Type: application/json
+
+{
+  "productName": "PlayStation 5",
+    "productDescription": "The PlayStation 5 is a home video game console developed by Sony Interactive Entertainment.",
+    "productPrice": 499.99,
+    "productCategory": "Console",
+    "productStock": 100
+}
+
+### Update an existing product
+PUT http://localhost:8080/api/product/update/3
+Content-Type: application/json
+
+{
+  "productName": "Steam Deck",
+  "productDescription": "Steam Deck is a handheld gaming device developed by Valve Corporation.",
+  "productPrice": 369.99,
+  "productCategory": "Console",
+  "productStock": 100
+}
+
+### Update product stock
+PATCH http://localhost:8080/api/product/update-stock/5
+Content-Type: application/json
+
+{
+  "productStock": 89
+}
+
+### Delete a product
+DELETE http://localhost:8080/api/product/delete/4

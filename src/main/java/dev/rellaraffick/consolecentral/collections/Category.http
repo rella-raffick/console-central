@@ -9,8 +9,17 @@ POST http://localhost:8080/api/category/create
 Content-Type: application/json
 
 {
-  "categoryName": "Action games",
-  "categoryDescription": "Action games are games that emphasize physical challenges, including hand–eye coordination and reaction-time."
+  "categoryName": "Console",
+  "categoryDescription": "Consoles are dedicated gaming devices that are designed to play video games."
+}
+
+### Update an existing category
+PUT http://localhost:8080/api/category/update/6
+Content-Type: application/json
+
+{
+  "categoryName": "JRPG",
+  "categoryDescription": "JRPGs are games that emphasize story-telling, character development, and exploration."
 }
 
 ### Delete a category

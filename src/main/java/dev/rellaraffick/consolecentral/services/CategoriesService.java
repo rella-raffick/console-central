@@ -1,7 +1,6 @@
 package dev.rellaraffick.consolecentral.services;
 
 import dev.rellaraffick.consolecentral.records.ConsoleCentralCategories;
-import dev.rellaraffick.consolecentral.records.ConsoleCentralUser;
 import dev.rellaraffick.consolecentral.repositories.CategoriesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

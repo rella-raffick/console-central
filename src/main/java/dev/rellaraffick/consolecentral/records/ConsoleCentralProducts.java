@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ConsoleCentralProducts {
     @jakarta.persistence.Id
@@ -21,4 +20,14 @@ public class ConsoleCentralProducts {
     @ManyToOne
     @JoinColumn(name = "categoryId", referencedColumnName = "categoryId")
     private ConsoleCentralCategories category;
+
+    public ConsoleCentralProducts(Integer productId, String productName, String productDescription, Float productPrice, Integer productStock, ConsoleCentralCategories category) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productPrice = productPrice;
+        this.productStock = productStock;
+        this.category = category;
+    }
+
 }
