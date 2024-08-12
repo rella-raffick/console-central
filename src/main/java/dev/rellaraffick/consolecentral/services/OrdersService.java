@@ -1,48 +1,53 @@
 package dev.rellaraffick.consolecentral.services;
 
+import dev.rellaraffick.consolecentral.DTO.OrdersDTO;
 import dev.rellaraffick.consolecentral.records.ConsoleCentralOrders;
+import dev.rellaraffick.consolecentral.records.ConsoleCentralUser;
 import dev.rellaraffick.consolecentral.repositories.OrdersRepository;
+import dev.rellaraffick.consolecentral.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrdersService {
     private final OrdersRepository orderRepository;
+    private final UserRepository usersRepository;
 
-    public OrdersService(OrdersRepository orderRepository) {
+    public OrdersService(OrdersRepository orderRepository, UserRepository usersRepository) {
         this.orderRepository = orderRepository;
+        this.usersRepository = usersRepository;
     }
 
     @Transactional(readOnly = true)
-    public List<ConsoleCentralOrders> getAllOrders() {
-        return orderRepository.findAll();
+    public List<OrdersDTO> getAllOrders(Integer userId) {
+        return orderRepository.findAllSimpleOrdersByUserId(userId);
     }
 
     @Transactional(readOnly = true)
-    public ConsoleCentralOrders getOrderById(Integer orderId) {
-        return orderRepository.findById(orderId)
+    public OrdersDTO getOrderById(Integer orderId) {
+        return orderRepository.findOrderDTOById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
     }
 
-    @Transactional(readOnly = true)
-    public List<ConsoleCentralOrders> getAllOrdersByUserId(Integer userId) {
-       return orderRepository.findAllByUserUserId(userId);
+    @Transactional
+    public OrdersDTO createOrder(ConsoleCentralOrders order, Integer userId) {
+        ConsoleCentralUser user = usersRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        order.setUser(user);
+        orderRepository.save(order);
+        return new OrdersDTO(order.getOrderId(), order.getUser().getUserId(), order.getOrderStatus(), order.getOrderDate());
     }
 
     @Transactional
-    public ConsoleCentralOrders createOrder(ConsoleCentralOrders order) {
-        return orderRepository.save(order);
-    }
-
-    @Transactional
-    public ConsoleCentralOrders updateOrderStatus(Integer orderId, String status) {
+    public OrdersDTO updateOrderStatus(Integer orderId, String status) {
         ConsoleCentralOrders existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
         existingOrder.setOrderStatus(status);
-        return orderRepository.save(existingOrder);
+        existingOrder.setUser(existingOrder.getUser());
+        orderRepository.save(existingOrder);
+        return new OrdersDTO(existingOrder.getOrderId(), existingOrder.getUser().getUserId(), existingOrder.getOrderStatus(), existingOrder.getOrderDate());
     }
 
     @Transactional

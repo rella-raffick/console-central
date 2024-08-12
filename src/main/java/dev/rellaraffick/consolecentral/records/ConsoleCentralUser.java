@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ConsoleCentralUser {
     @jakarta.persistence.Id
-    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
     @NotEmpty

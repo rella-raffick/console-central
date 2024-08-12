@@ -1,0 +1,21 @@
+### Get all orders by User
+GET http://localhost:8080/api/orders/all/1
+
+### Get Order by ID
+GET http://localhost:8080/api/orders/1
+
+### Create new Order
+POST http://localhost:8080/api/orders/create/1
+Content-Type: application/json
+
+{
+  "orderStatus": "PENDING"
+}
+
+### Update Order Status
+PATCH http://localhost:8080/api/orders/update/1
+Content-Type: application/json
+
+{
+  "orderStatus": "RETURNED"
+}
