@@ -37,4 +37,8 @@ public class OrdersController {
         return ordersService.updateOrderStatus(orderId, order.getOrderStatus());
     }
 
+    @DeleteMapping("/delete/{orderId}")
+    void deleteOrder(@PathVariable Integer orderId){
+        ordersService.deleteOrder(orderId);
+    }
 }

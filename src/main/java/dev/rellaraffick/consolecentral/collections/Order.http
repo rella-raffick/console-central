@@ -19,3 +19,6 @@ Content-Type: application/json
 {
   "orderStatus": "RETURNED"
 }
+
+### Delete an Order
+DELETE http://localhost:8080/api/orders/delete/1

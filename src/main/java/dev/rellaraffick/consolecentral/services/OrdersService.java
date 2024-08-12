@@ -51,12 +51,7 @@ public class OrdersService {
     }
 
     @Transactional
-    public boolean deleteOrder(Integer orderId) {
-        try {
-            orderRepository.deleteById(orderId);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void deleteOrder(Integer orderId) {
+        orderRepository.deleteById(orderId);
     }
 }
